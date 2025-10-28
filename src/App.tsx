@@ -1,13 +1,31 @@
 import './App.css'
-import { User } from './types/User';
-import { useFetch } from './hooks/useFetch'
+import { type User } from './types/User';
+import { type ApiResponse } from './types/User';
+import { useFetch } from './hooks/useFetch';
+import { useState } from 'react';
+import { useEffect } from 'react';
+
 
 function App() {
+  const [users, setUsers] = useState<User[]>();
+  const [more, setMore] = useState<string | undefined>(undefined);
 
-  const {data, error, isLoading} = useFetch<User>('https://randomuser.me/api/');
+  const {data, error, isLoading} = useFetch<ApiResponse>('https://randomuser.me/api/?results=20');
   
-  console.log(data)
+  useEffect(() => {
+    if (data?.results) {
+      setUsers(data.results);
+    }
+  }, [data]);
 
+  const handleMoreButton = (id:string) => {
+    setMore(id);
+  }
+  const handleLessButton = (id:string) => {
+    if (more === id){
+      setMore("");
+    }
+  }
 
   if (isLoading){
     return(
@@ -24,13 +42,29 @@ function App() {
     </div>)
   }
 
-  if (data)  {
+  if (users)  {
     return (
-      <>
-        {data.email}
-      </>
+      <div>{users.map((user) =>
+        user.login.uuid === more ? (
+        <>
+          <div className='carde' key={user.login.uuid}>
+            <img src={user.picture.large} alt="" />
+            <p>{user.name.first} {user.name.last}</p>
+            <button onClick={()=>{handleLessButton(user.login.uuid)}}>-</button>
+            <p> 📞 {user.cell} - 💻 {user.email}</p>
+          </div>
+        </>
+      ):(
+        <>
+          <div className='carde'key={user.login.uuid}>
+            <img src={user.picture.large} alt="" />
+            <p>{user.name.first} {user.name.last}</p>
+            <button onClick={()=>{handleMoreButton(user.login.uuid)}}>+</button>
+          </div>
+        </>
+      ),
     )
-  }
-}
+  }</div>
+)}}
 
 export default App

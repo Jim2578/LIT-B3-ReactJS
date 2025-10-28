@@ -40,3 +40,10 @@
 .read-the-docs {
   color: #888;
 }
+
+.carde {
+  border-style: ridge;
+  border-color: aqua;
+  border-radius: 15%;
+  width: 150%;
+}
