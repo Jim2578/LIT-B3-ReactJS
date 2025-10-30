@@ -4,19 +4,30 @@ import { type ApiUserResponse } from './types/User';
 import { useFetch } from './hooks/useFetch';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { useUserContext } from './hooks/useUserContext';
+import { ComponentsB } from './components/componentsB';
 
 
 function App() {
   const [users, setUsers] = useState<User[]>();
   const [more, setMore] = useState<string | undefined>(undefined);
+  const [inputFirstName, setInputFirstName] = useState("");
+  const [inputLastName, setInputLastName] = useState("");
+;
 
   const {data, error, isLoading} = useFetch<ApiUserResponse>('https://randomuser.me/api/?results=20');
+  
+  const {isAdmin, verifyAdmin} = useUserContext()
   
   useEffect(() => {
     if (data?.results) {
       setUsers(data.results);
     }
   }, [data]);
+
+  const handleVerify = () => {
+    verifyAdmin(inputFirstName, inputLastName);
+  }
 
   const handleMoreButton = (id:string) => {
     setMore(id);
@@ -64,7 +75,19 @@ function App() {
         </>
       ),
     )
-  }</div>
+  }
+  <div className=''>
+    <span>First Name</span>
+    <input type="text" value={inputFirstName} onChange={((e)=>setInputFirstName(e.target.value))} />
+    <span>Last Name</span>
+    <input type="text" value={inputLastName} onChange={((e)=>setInputLastName(e.target.value))} />
+    <button onClick={handleVerify}>
+      Verifiy
+    </button>
+  </div>
+  {isAdmin? "app" : "Je suis pas admin"}
+  <ComponentsB/>
+  </div>
 )}}
 
 export default App
