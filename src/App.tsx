@@ -51,7 +51,7 @@ function App() {
             <img src={user.picture.large} alt="" />
             <p>{user.name.first} {user.name.last}</p>
             <button onClick={()=>{handleLessButton(user.login.uuid)}}>-</button>
-            <p> 📞 : {user.cell} - 💻 : {user.email}</p>
+            <p>📞 : {user.cell} - 💻 : {user.email}</p>
           </div>
         </>
       ):(
