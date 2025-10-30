@@ -9,7 +9,7 @@
 //     medium: string;
 //   };
 // };
-export type ApiResponse = {
+export type ApiUserResponse = {
   results: User[];
   info: {
     seed: string;

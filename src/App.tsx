@@ -1,6 +1,6 @@
 import './App.css'
 import { type User } from './types/User';
-import { type ApiResponse } from './types/User';
+import { type ApiUserResponse } from './types/User';
 import { useFetch } from './hooks/useFetch';
 import { useState } from 'react';
 import { useEffect } from 'react';
@@ -10,7 +10,7 @@ function App() {
   const [users, setUsers] = useState<User[]>();
   const [more, setMore] = useState<string | undefined>(undefined);
 
-  const {data, error, isLoading} = useFetch<ApiResponse>('https://randomuser.me/api/?results=20');
+  const {data, error, isLoading} = useFetch<ApiUserResponse>('https://randomuser.me/api/?results=20');
   
   useEffect(() => {
     if (data?.results) {
@@ -51,7 +51,7 @@ function App() {
             <img src={user.picture.large} alt="" />
             <p>{user.name.first} {user.name.last}</p>
             <button onClick={()=>{handleLessButton(user.login.uuid)}}>-</button>
-            <p> 📞 {user.cell} - 💻 {user.email}</p>
+            <p> 📞 : {user.cell} - 💻 : {user.email}</p>
           </div>
         </>
       ):(
