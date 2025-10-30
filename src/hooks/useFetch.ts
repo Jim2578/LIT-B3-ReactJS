@@ -113,5 +113,5 @@ export const useFetch = <T>(url: string) => {
         getData()
     },[url])
 
-    return {state};
+    return state;
 }
